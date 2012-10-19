@@ -26,6 +26,9 @@ class FlowSensor {
     void      checkSensor();
     float     getBeersLeft();
     float     getPercentLeft();
+    float     getBeersPoured();
+    float     getLitersPoured();
+    float     getMaxBeers();
 };
 
 #endif

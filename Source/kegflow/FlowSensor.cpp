@@ -78,3 +78,16 @@ float FlowSensor::getPercentLeft() {
   }
   return percentLeft;
 }
+
+float FlowSensor::getBeersPoured() {
+  return pulses / PULSES_PER_BEER;
+}
+
+float FlowSensor::getLitersPoured() {
+  float ounces = (pulses / PULSES_PER_BEER) * 12;
+  return ounces * 33.814;
+}
+
+float FlowSensor::getMaxBeers() {
+  return MAX_PULSES / PULSES_PER_BEER;
+}
