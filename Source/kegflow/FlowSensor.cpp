@@ -62,9 +62,9 @@ void FlowSensor::checkSensor() {
 float FlowSensor::getBeersLeft() {
   float beersLeft = MAX_PULSES - pulses;
   if (beersLeft < 0.0) {
-    beersLeft = beersLeft / PULSES_PER_BEER;
-  } else {
     beersLeft = 0.0;
+  } else {
+    beersLeft = beersLeft / PULSES_PER_BEER;
   }
   return beersLeft;
 }
@@ -72,11 +72,11 @@ float FlowSensor::getBeersLeft() {
 float FlowSensor::getPercentLeft() {
   float percentLeft = MAX_PULSES - pulses;
   if (percentLeft < 0.0) {
-    percentLeft = percentLeft / MAX_PULSES;
-  } else {
     percentLeft = 0.0;
+  } else {
+    percentLeft = percentLeft / MAX_PULSES;
   }
-  return percentLeft;
+  return percentLeft * 100;
 }
 
 float FlowSensor::getBeersPoured() {

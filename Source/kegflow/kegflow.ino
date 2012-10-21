@@ -72,7 +72,7 @@ int programState = STATE_MAIN;
 
 // Define beer variables
 int beerSelectIndex = 0;
-int LEFT_beerCurrentIndex = 0;
+int LEFT_beerCurrentIndex = 2;
 int RIGHT_beerCurrentIndex = 0;
 
 #define BEER_LIST_LENGTH 7
@@ -212,20 +212,14 @@ void check_buttons() {
   if (LEFT_state == 1 && LEFT_lastState == 0) {
     // update state left button press
     updateState(LEFT_BUTTON);
-    update_LCD();
-    Serial.println("left button press");
   }
   if (MIDDLE_state == 1 && MIDDLE_lastState == 0) {
     // update state middle button press
     updateState(MIDDLE_BUTTON);
-    update_LCD();
-    Serial.println("middle button press");
   }
   if (RIGHT_state == 1 && RIGHT_lastState == 0) {
     // update state right button press
     updateState(RIGHT_BUTTON);
-    update_LCD();
-    Serial.println("right button press");
   }
   
   if (!LEFT_reading) {
@@ -258,15 +252,15 @@ void updateState(int button) {
     case STATE_MAIN:
       if (button == LEFT_BUTTON) {
         programState = STATE_LEFT_DETAILS;
-      } else if (button = MIDDLE_BUTTON) {
+      } else if (button == MIDDLE_BUTTON) {
         programState = STATE_OFF;
-      } else if (button = RIGHT_BUTTON) {
+      } else if (button == RIGHT_BUTTON) {
         programState = STATE_RIGHT_DETAILS;
       }
       break;
       
     case STATE_OFF:
-      if (button & (LEFT_BUTTON | MIDDLE_BUTTON | RIGHT_BUTTON)) {
+      if (button == LEFT_BUTTON || button == MIDDLE_BUTTON || button == RIGHT_BUTTON) {
         programState = STATE_MAIN;
       }
       break;
@@ -274,20 +268,24 @@ void updateState(int button) {
     case STATE_LEFT_DETAILS:
       if (button == LEFT_BUTTON) {
         programState = STATE_MAIN;
-      } else if (button = MIDDLE_BUTTON) {
+      } else if (button == MIDDLE_BUTTON) {
         programState = STATE_LEFT_SELECT;
-      } else if (button = RIGHT_BUTTON) {
+      } else if (button == RIGHT_BUTTON) {
         programState = STATE_LEFT_RESET_CONFIRM;
       }
       break;
       
     case STATE_LEFT_SELECT:
       if (button == LEFT_BUTTON) {
-        beerSelectIndex++;
-      } else if (button = MIDDLE_BUTTON) {
+        if (beerSelectIndex >= 1) {
+          beerSelectIndex--;
+        }
+      } else if (button == MIDDLE_BUTTON) {
         programState = STATE_LEFT_NEW_CONFIRM;
-      } else if (button = RIGHT_BUTTON) {
-        beerSelectIndex--;
+      } else if (button == RIGHT_BUTTON) {
+        if (beerSelectIndex <= BEER_LIST_LENGTH -2) {
+          beerSelectIndex++;
+        }
       }
       break;
       
@@ -296,8 +294,8 @@ void updateState(int button) {
         leftTapSensor.setPulses(0);
         LEFT_beerCurrentIndex = beerSelectIndex;
         programState = STATE_LEFT_DETAILS;
-      } else if (button = MIDDLE_BUTTON) {
-      } else if (button = RIGHT_BUTTON) {
+      } else if (button == MIDDLE_BUTTON) {
+      } else if (button == RIGHT_BUTTON) {
         programState = STATE_LEFT_SELECT;
       }
       break;
@@ -306,8 +304,8 @@ void updateState(int button) {
       if (button == LEFT_BUTTON) {
         leftTapSensor.setPulses(0);
         programState = STATE_LEFT_DETAILS;
-      } else if (button = MIDDLE_BUTTON) {
-      } else if (button = RIGHT_BUTTON) {
+      } else if (button == MIDDLE_BUTTON) {
+      } else if (button == RIGHT_BUTTON) {
         programState = STATE_LEFT_DETAILS;
       }
       break;
@@ -315,20 +313,24 @@ void updateState(int button) {
     case STATE_RIGHT_DETAILS:
       if (button == LEFT_BUTTON) {
         programState = STATE_RIGHT_RESET_CONFIRM;
-      } else if (button = MIDDLE_BUTTON) {
+      } else if (button == MIDDLE_BUTTON) {
         programState = STATE_RIGHT_SELECT;
-      } else if (button = RIGHT_BUTTON) {
+      } else if (button == RIGHT_BUTTON) {
         programState = STATE_MAIN;
       }
       break;
       
     case STATE_RIGHT_SELECT:
       if (button == LEFT_BUTTON) {
-        beerSelectIndex++;
-      } else if (button = MIDDLE_BUTTON) {
+        if (beerSelectIndex >= 1) {
+          beerSelectIndex--;
+        }
+      } else if (button == MIDDLE_BUTTON) {
         programState = STATE_RIGHT_NEW_CONFIRM;
-      } else if (button = RIGHT_BUTTON) {
-        beerSelectIndex--;
+      } else if (button == RIGHT_BUTTON) {
+        if (beerSelectIndex <= BEER_LIST_LENGTH -2) {
+          beerSelectIndex++;
+        }
       }
       break;
       
@@ -337,8 +339,8 @@ void updateState(int button) {
         rightTapSensor.setPulses(0);
         RIGHT_beerCurrentIndex = beerSelectIndex;
         programState = STATE_RIGHT_DETAILS;
-      } else if (button = MIDDLE_BUTTON) {
-      } else if (button = RIGHT_BUTTON) {
+      } else if (button == MIDDLE_BUTTON) {
+      } else if (button == RIGHT_BUTTON) {
         programState = STATE_RIGHT_SELECT;
       }
       break;
@@ -347,8 +349,8 @@ void updateState(int button) {
       if (button == LEFT_BUTTON) {
         rightTapSensor.setPulses(0);
         programState = STATE_RIGHT_DETAILS;
-      } else if (button = MIDDLE_BUTTON) {
-      } else if (button = RIGHT_BUTTON) {
+      } else if (button == MIDDLE_BUTTON) {
+      } else if (button == RIGHT_BUTTON) {
         programState = STATE_RIGHT_DETAILS;
       }
       break;
@@ -391,13 +393,16 @@ void update_LCD() {
       case STATE_LEFT_SELECT:
         if (beerSelectIndex > 0) {
           lcd.setCursor(0,0);
+          lcd.print(" ");
           lcd.print(BEER_LIST[beerSelectIndex - 1]);
         }
         if (beerSelectIndex < (BEER_LIST_LENGTH - 1)) {
           lcd.setCursor(0,2);
+          lcd.print(" ");
           lcd.print(BEER_LIST[beerSelectIndex + 1]);
         }
         lcd.setCursor(0,1);
+        lcd.print("*");
         lcd.print(BEER_LIST[beerSelectIndex]);
         lcd.setCursor(0,3);
         lcd.print(" Up    Select   Down");
@@ -443,13 +448,16 @@ void update_LCD() {
       case STATE_RIGHT_SELECT:
         if (beerSelectIndex > 0) {
           lcd.setCursor(0,0);
+          lcd.print(" ");
           lcd.print(BEER_LIST[beerSelectIndex - 1]);
         }
         if (beerSelectIndex < (BEER_LIST_LENGTH - 1)) {
           lcd.setCursor(0,2);
+          lcd.print(" ");
           lcd.print(BEER_LIST[beerSelectIndex + 1]);
         }
         lcd.setCursor(0,1);
+        lcd.print("*");
         lcd.print(BEER_LIST[beerSelectIndex]);
         lcd.setCursor(0,3);
         lcd.print(" Up    Select   Down");
@@ -491,7 +499,9 @@ void update_LCD() {
         
         // Print second line of LCD
         lcd.setCursor(0,1);
+        printFloatXX_X(leftTapSensor.getBeersLeft());
         lcd.print(" Beers Left ");
+        printFloatXX_X(rightTapSensor.getBeersLeft());
         
         // Print third line of LCD
         lcd.setCursor(0,2);
@@ -572,10 +582,11 @@ void printFloatXXX(float floatNum) {
   }
   
   // Determine padding necesary and print the number
-  if (leftSide < 10) {
-    lcd.print("  ");
-  } else if (leftSide < 99) {
+  if (leftSide < 100) {
     lcd.print(" ");
+    if (leftSide < 10) {
+      lcd.print(" ");
+    }
   }
   lcd.print(leftSide);
 }
