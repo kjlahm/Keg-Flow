@@ -17,7 +17,9 @@
 
 #include <LiquidCrystal.h>
 #include <OneWire.h>
+#include <EEPROM.h>
 #include "FlowSensor.h"
+#include "EEPROMAnything.h"
 
 // Define the LCD
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
@@ -32,6 +34,7 @@ int brightness = 255;
 #define PIN_LEFT_BUTTON A3
 #define PIN_MIDDLE_BUTTON A4
 #define PIN_RIGHT_BUTTON A5
+#define PIN_SAVE_BUTTON A2
 
 #define DELAY 50
 
@@ -49,6 +52,11 @@ int RIGHT_pressCount = 0;
 int RIGHT_lastReading = 0;
 int RIGHT_state = 0;
 int RIGHT_lastState = 0;
+
+int SAVE_pressCount = 0;
+int SAVE_lastReading = 0;
+int SAVE_state = 0;
+int SAVE_lastState = 0;
 
 // Define state variables
 #define STATE_MAIN 0b0000
@@ -100,11 +108,15 @@ FlowSensor leftTapSensor;
 FlowSensor rightTapSensor;
 
 // Define address constants
-#define EE_ADDR_DATA_FLAG 0
-#define EE_ADDR_LEFT_INDEX 1
-#define EE_ADDR_LEFT_LITERS 5
-#define EE_ADDR_RIGHT_INDEX 9
-#define EE_ADDR_RIGHT_LITERS 13
+#define EE_ADDR_CONFIG 0
+
+// Define a struct to hold program state data for saving to and reading from non volatile memory
+struct config_t {
+  int leftIndex;
+  int rightIndex;
+  uint16_t leftPulses;
+  uint16_t rightPulses;
+} config;
 
 /*
  * Interrupt is called once a millisecond, looks for any pulses from the sensor!
@@ -150,11 +162,17 @@ void setup() {
   pinMode(PIN_RIGHT_BUTTON, INPUT);
   digitalWrite(PIN_RIGHT_BUTTON, HIGH);
   
+  pinMode(PIN_SAVE_BUTTON, INPUT);
+  digitalWrite(PIN_SAVE_BUTTON, HIGH);
+  
   // Initialize the left tap flow meter
   leftTapSensor.init(PIN_LEFT_TAP_FLOW_METER);
   
   // Initialize the right tap flow meter
   rightTapSensor.init(PIN_RIGHT_TAP_FLOW_METER);
+  
+  // Attempt to read any existing saved data
+  readStateInformation();
   
   // Show initial LCD
   update_LCD();
@@ -188,6 +206,7 @@ void check_buttons() {
   int LEFT_reading = !digitalRead(PIN_LEFT_BUTTON);
   int MIDDLE_reading = !digitalRead(PIN_MIDDLE_BUTTON);
   int RIGHT_reading = !digitalRead(PIN_RIGHT_BUTTON);
+  int SAVE_reading = !digitalRead(PIN_SAVE_BUTTON);
   
   if (LEFT_lastReading == LEFT_reading) {
     LEFT_pressCount++;
@@ -198,6 +217,9 @@ void check_buttons() {
   if (RIGHT_lastReading == RIGHT_reading) {
     RIGHT_pressCount++;
   }
+  if (SAVE_lastReading == SAVE_reading) {
+    SAVE_pressCount++;
+  }
   
   if (LEFT_pressCount >= DELAY) {
     LEFT_state = 1;
@@ -207,6 +229,9 @@ void check_buttons() {
   }
   if (RIGHT_pressCount >= DELAY) {
     RIGHT_state = 1;
+  }
+  if (SAVE_pressCount >= DELAY) {
+    SAVE_state = 1;
   }
   
   if (LEFT_state == 1 && LEFT_lastState == 0) {
@@ -221,6 +246,9 @@ void check_buttons() {
     // update state right button press
     updateState(RIGHT_BUTTON);
   }
+  if (SAVE_state == 1 && SAVE_lastState == 0) {
+    saveStateInformation();
+  }
   
   if (!LEFT_reading) {
     LEFT_pressCount = 0;
@@ -234,6 +262,10 @@ void check_buttons() {
     RIGHT_pressCount = 0;
     RIGHT_state = 0;
   }
+  if (!SAVE_reading) {
+    SAVE_pressCount = 0;
+    SAVE_state = 0;
+  }
   
   LEFT_lastState = LEFT_state;
   LEFT_lastReading = LEFT_reading;
@@ -241,6 +273,8 @@ void check_buttons() {
   MIDDLE_lastReading = MIDDLE_reading;
   RIGHT_lastState = RIGHT_state;
   RIGHT_lastReading = RIGHT_reading;
+  SAVE_lastState = SAVE_state;
+  SAVE_lastReading = SAVE_reading;
 }
 
 /*
@@ -358,6 +392,65 @@ void updateState(int button) {
     default:
       break;
   }
+}
+
+/*
+ * Saves pertinent program state information to non volatile memory.
+ */
+void saveStateInformation() {
+  // Show a message that the state is being saved
+  lcd.clear();
+  lcd.setCursor(3,1);
+  lcd.print("Saving sensor");
+  lcd.setCursor(3,2);
+  lcd.print("state");
+  
+  int i;
+  for (i=0; i<5; i++) {
+    lcd.setCursor(9,2);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.print(".");
+    delay(200);
+    lcd.setCursor(9,2);
+    lcd.print("   ");
+  }
+  
+  // Perform the saving of the information
+  /*config.leftIndex = LEFT_beerCurrentIndex;
+  config.rightIndex = RIGHT_beerCurrentIndex;
+  config.leftPulses = leftTapSensor.getPulses();
+  config.rightPulses = rightTapSensor.getPulses();
+  EEPROM_writeAnything(EE_ADDR_CONFIG, config);*/
+  
+  // Change the LCD back
+  update_LCD();
+}
+
+/*
+ * Reads program state information from non volatile memory
+ */
+void readStateInformation() {
+  // Show a message that the state is being read
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Welcome to");
+  lcd.setCursor(6,1);
+  lcd.print("Keg Flowduino");
+  lcd.setCursor(0,3);
+  lcd.print("Reading Sensor State");
+  
+  // Perform the reading of the information
+  EEPROM_writeAnything(EE_ADDR_CONFIG, config);
+  LEFT_beerCurrentIndex = config.leftIndex;
+  RIGHT_beerCurrentIndex = config.rightIndex;
+  leftTapSensor.setPulses(config.leftPulses);
+  rightTapSensor.setPulses(config.rightPulses);
+  
+  // Pause execution for 3 seconds
+  delay(3000);
 }
 
 /////////////////////////////////////////////////////////////////////////////
