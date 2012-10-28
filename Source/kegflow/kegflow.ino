@@ -175,7 +175,7 @@ void setup() {
   readStateInformation();
   
   // Show initial LCD
-  update_LCD();
+  change_LCD();
   
   // Enable the interrupts
   useInterrupt(true);
@@ -392,6 +392,7 @@ void updateState(int button) {
     default:
       break;
   }
+  change_LCD();
 }
 
 /*
@@ -426,7 +427,7 @@ void saveStateInformation() {
   EEPROM_writeAnything(EE_ADDR_CONFIG, config);*/
   
   // Change the LCD back
-  update_LCD();
+  change_LCD();
 }
 
 /*
@@ -460,9 +461,9 @@ void readStateInformation() {
 /////////////////////////////////////////////////////////////////////////////
 
 /*
- * Updates the text of the LCD.
+ * Sets the text of the LCD to match the state.
  */
-void update_LCD() {
+void change_LCD() {
   if (lcdCount++ >= LCD_COUNT_MAX) {
     lcdCount = 0;
     lcd.clear();
@@ -614,6 +615,78 @@ void update_LCD() {
         lcd.print("Oops, something");
         lcd.setCursor(0,2);
         lcd.print("went wrong.");
+    }
+  }
+}
+
+/*
+ * Updates the dynamic elements of each page.
+ */
+void update_LCD() {
+  if (lcdCount++ >= LCD_COUNT_MAX) {
+    lcdCount = 0;
+    lcd.clear();
+    
+    switch (programState) {
+      case STATE_LEFT_DETAILS:
+        lcd.setCursor(12,1);
+        printFloatXX_X(leftTapSensor.getBeersPoured());
+        lcd.print("/");
+        printFloatXX_X(leftTapSensor.getMaxBeers());
+        lcd.setCursor(14,2);
+        printFloatXX_XX(leftTapSensor.getLitersPoured());
+        break;
+        
+      case STATE_LEFT_SELECT:
+        break;
+        
+      case STATE_LEFT_NEW_CONFIRM:
+        break;
+        
+      case STATE_LEFT_RESET_CONFIRM:
+        break;
+        
+      case STATE_RIGHT_DETAILS:
+        lcd.setCursor(12,1);
+        printFloatXX_X(rightTapSensor.getBeersPoured());
+        lcd.print("/");
+        printFloatXX_X(rightTapSensor.getMaxBeers());
+        lcd.setCursor(14,2);
+        printFloatXX_XX(rightTapSensor.getLitersPoured());
+        break;
+        
+      case STATE_RIGHT_SELECT:
+        break;
+        
+      case STATE_RIGHT_NEW_CONFIRM:
+        break;
+        
+      case STATE_RIGHT_RESET_CONFIRM:
+        break;
+        
+      case STATE_OFF:
+        break;
+      
+      case STATE_MAIN:
+        // Update first line of LCD
+        lcd.setCursor(9,0);
+        printFloatXX_X(getTemp());
+        
+        // Update second line of LCD
+        lcd.setCursor(0,1);
+        printFloatXX_X(leftTapSensor.getBeersLeft());
+        lcd.setCursor(15,1);
+        printFloatXX_X(rightTapSensor.getBeersLeft());
+        
+        // Update third line of LCD
+        lcd.setCursor(0,2);
+        printFloatXXX(leftTapSensor.getPercentLeft());
+        lcd.setCursor(15,2);
+        printFloatXXX(rightTapSensor.getPercentLeft());
+        break;
+        
+      default:
+        break;
     }
   }
 }
