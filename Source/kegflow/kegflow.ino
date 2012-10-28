@@ -29,6 +29,7 @@ int brightness = 255;
 #define REDLITE 3
 #define GREENLITE 5
 #define BLUELITE 6
+#define BACKLIGHT 13
 
 // Define the input buttons
 #define PIN_LEFT_BUTTON A3
@@ -149,6 +150,8 @@ void setup() {
   Serial.println("Begin");
   
   // Initialize the LCD screen
+  pinMode(BACKLIGHT, OUTPUT);
+  digitalWrite(BACKLIGHT, HIGH);
   lcd.begin(20, 4);
   setBacklight(255,0,0);
   
@@ -464,158 +467,162 @@ void readStateInformation() {
  * Sets the text of the LCD to match the state.
  */
 void change_LCD() {
-  if (lcdCount++ >= LCD_COUNT_MAX) {
-    lcdCount = 0;
-    lcd.clear();
+  
+  // Check if the backlight should be turned on/off
+  if (programState == STATE_OFF) {
+    digitalWrite(BACKLIGHT, LOW);
+  } else {
+    digitalWrite(BACKLIGHT, HIGH);
+  }
+  
+  lcdCount = 0;
+  lcd.clear();
     
-    switch (programState) {
-      case STATE_LEFT_DETAILS:
+  switch (programState) {
+    case STATE_LEFT_DETAILS:
+      lcd.setCursor(0,0);
+      lcd.print(BEER_LIST[LEFT_beerCurrentIndex]);
+      lcd.setCursor(0,1);
+      lcd.print("Beers Poured:");
+      printFloatXX_X(leftTapSensor.getBeersPoured());
+      lcd.print("/");
+      printFloatXX(leftTapSensor.getMaxBeers());
+      lcd.setCursor(0,2);
+      lcd.print("Liters Poured: ");
+      printFloatXX_XX(leftTapSensor.getLitersPoured());
+      lcd.setCursor(0,3);
+      lcd.print("Back  New Beer Reset");
+      break;
+        
+    case STATE_LEFT_SELECT:
+      if (beerSelectIndex > 0) {
         lcd.setCursor(0,0);
-        lcd.print(BEER_LIST[LEFT_beerCurrentIndex]);
-        lcd.setCursor(0,1);
-        lcd.print("Beers Poured:");
-        printFloatXX_X(leftTapSensor.getBeersPoured());
-        lcd.print("/");
-        printFloatXX_X(leftTapSensor.getMaxBeers());
+        lcd.print(" ");
+        lcd.print(BEER_LIST[beerSelectIndex - 1]);
+      }
+      if (beerSelectIndex < (BEER_LIST_LENGTH - 1)) {
         lcd.setCursor(0,2);
-        lcd.print("Liters Poured: ");
-        printFloatXX_XX(leftTapSensor.getLitersPoured());
-        lcd.setCursor(0,3);
-        lcd.print("Back  New Beer Reset");
-        break;
+        lcd.print(" ");
+        lcd.print(BEER_LIST[beerSelectIndex + 1]);
+      }
+      lcd.setCursor(0,1);
+      lcd.print("*");
+      lcd.print(BEER_LIST[beerSelectIndex]);
+      lcd.setCursor(0,3);
+      lcd.print(" Up    Select   Down");
+      break;
         
-      case STATE_LEFT_SELECT:
-        if (beerSelectIndex > 0) {
-          lcd.setCursor(0,0);
-          lcd.print(" ");
-          lcd.print(BEER_LIST[beerSelectIndex - 1]);
-        }
-        if (beerSelectIndex < (BEER_LIST_LENGTH - 1)) {
-          lcd.setCursor(0,2);
-          lcd.print(" ");
-          lcd.print(BEER_LIST[beerSelectIndex + 1]);
-        }
-        lcd.setCursor(0,1);
-        lcd.print("*");
-        lcd.print(BEER_LIST[beerSelectIndex]);
-        lcd.setCursor(0,3);
-        lcd.print(" Up    Select   Down");
-        break;
+    case STATE_LEFT_NEW_CONFIRM:
+      lcd.setCursor(0,0);
+      lcd.print("Confirm:");
+      lcd.setCursor(0,1);
+      lcd.print("Reset left to:");
+      lcd.setCursor(0,2);
+      lcd.print(BEER_LIST[beerSelectIndex]);
+      lcd.setCursor(0,3);
+      lcd.print(" Yes             No ");
+      break;
         
-      case STATE_LEFT_NEW_CONFIRM:
+    case STATE_LEFT_RESET_CONFIRM:
+      lcd.setCursor(0,0);
+      lcd.print("Confirm:");
+      lcd.setCursor(0,1);
+      lcd.print("Reset left to full:");
+      lcd.setCursor(0,2);
+      lcd.print(BEER_LIST[beerSelectIndex]);
+      lcd.setCursor(0,3);
+      lcd.print(" Yes             No ");
+      break;
+        
+    case STATE_RIGHT_DETAILS:
+      lcd.setCursor(0,0);
+      lcd.print(BEER_LIST[RIGHT_beerCurrentIndex]);
+      lcd.setCursor(0,1);
+      lcd.print("Beers Poured:");
+      printFloatXX_X(rightTapSensor.getBeersPoured());
+      lcd.print("/");
+      printFloatXX(rightTapSensor.getMaxBeers());
+      lcd.setCursor(0,2);
+      lcd.print("Liters Poured: ");
+      printFloatXX_XX(rightTapSensor.getLitersPoured());
+      lcd.setCursor(0,3);
+      lcd.print("Reset New Beer  Back");
+      break;
+        
+    case STATE_RIGHT_SELECT:
+      if (beerSelectIndex > 0) {
         lcd.setCursor(0,0);
-        lcd.print("Confirm:");
-        lcd.setCursor(0,1);
-        lcd.print("Reset left to:");
+        lcd.print(" ");
+        lcd.print(BEER_LIST[beerSelectIndex - 1]);
+      }
+      if (beerSelectIndex < (BEER_LIST_LENGTH - 1)) {
         lcd.setCursor(0,2);
-        lcd.print(BEER_LIST[beerSelectIndex]);
-        lcd.setCursor(0,3);
-        lcd.print(" Yes             No ");
-        break;
+        lcd.print(" ");
+        lcd.print(BEER_LIST[beerSelectIndex + 1]);
+      }
+      lcd.setCursor(0,1);
+      lcd.print("*");
+      lcd.print(BEER_LIST[beerSelectIndex]);
+      lcd.setCursor(0,3);
+      lcd.print(" Up    Select   Down");
+      break;
         
-      case STATE_LEFT_RESET_CONFIRM:
-        lcd.setCursor(0,0);
-        lcd.print("Confirm:");
-        lcd.setCursor(0,1);
-        lcd.print("Reset left to full:");
-        lcd.setCursor(0,2);
-        lcd.print(BEER_LIST[beerSelectIndex]);
-        lcd.setCursor(0,3);
-        lcd.print(" Yes             No ");
-        break;
+    case STATE_RIGHT_NEW_CONFIRM:
+      lcd.setCursor(0,0);
+      lcd.print("Confirm:");
+      lcd.setCursor(0,1);
+      lcd.print("Reset right to:");
+      lcd.setCursor(0,2);
+      lcd.print(BEER_LIST[beerSelectIndex]);
+      lcd.setCursor(0,3);
+      lcd.print(" Yes             No ");
+      break;
         
-      case STATE_RIGHT_DETAILS:
-        lcd.setCursor(0,0);
-        lcd.print(BEER_LIST[RIGHT_beerCurrentIndex]);
-        lcd.setCursor(0,1);
-        lcd.print("Beers Poured:");
-        printFloatXX_X(rightTapSensor.getBeersPoured());
-        lcd.print("/");
-        printFloatXX_X(rightTapSensor.getMaxBeers());
-        lcd.setCursor(0,2);
-        lcd.print("Liters Poured: ");
-        printFloatXX_XX(rightTapSensor.getLitersPoured());
-        lcd.setCursor(0,3);
-        lcd.print("Reset New Beer  Back");
-        break;
+    case STATE_RIGHT_RESET_CONFIRM:
+      lcd.setCursor(0,0);
+      lcd.print("Confirm:");
+      lcd.setCursor(0,1);
+      lcd.print("Reset right to full:");
+      lcd.setCursor(0,2);
+      lcd.print(BEER_LIST[beerSelectIndex]);
+      lcd.setCursor(0,3);
+      lcd.print(" Yes             No ");
+      break;
         
-      case STATE_RIGHT_SELECT:
-        if (beerSelectIndex > 0) {
-          lcd.setCursor(0,0);
-          lcd.print(" ");
-          lcd.print(BEER_LIST[beerSelectIndex - 1]);
-        }
-        if (beerSelectIndex < (BEER_LIST_LENGTH - 1)) {
-          lcd.setCursor(0,2);
-          lcd.print(" ");
-          lcd.print(BEER_LIST[beerSelectIndex + 1]);
-        }
-        lcd.setCursor(0,1);
-        lcd.print("*");
-        lcd.print(BEER_LIST[beerSelectIndex]);
-        lcd.setCursor(0,3);
-        lcd.print(" Up    Select   Down");
-        break;
-        
-      case STATE_RIGHT_NEW_CONFIRM:
-        lcd.setCursor(0,0);
-        lcd.print("Confirm:");
-        lcd.setCursor(0,1);
-        lcd.print("Reset right to:");
-        lcd.setCursor(0,2);
-        lcd.print(BEER_LIST[beerSelectIndex]);
-        lcd.setCursor(0,3);
-        lcd.print(" Yes             No ");
-        break;
-        
-      case STATE_RIGHT_RESET_CONFIRM:
-        lcd.setCursor(0,0);
-        lcd.print("Confirm:");
-        lcd.setCursor(0,1);
-        lcd.print("Reset right to full:");
-        lcd.setCursor(0,2);
-        lcd.print(BEER_LIST[beerSelectIndex]);
-        lcd.setCursor(0,3);
-        lcd.print(" Yes             No ");
-        break;
-        
-      case STATE_OFF:
-        lcd.setCursor(0,0);
-        lcd.print("Sleep");
-        break;
+    case STATE_OFF:
+      break;
       
-      case STATE_MAIN:        
-        // Print first line of LCD
-        lcd.setCursor(0,0);
-        lcd.print("    Temp: ");
-        printFloatXX_X(getTemp());
-        lcd.print(" F");
+    case STATE_MAIN:        
+      // Print first line of LCD
+      lcd.setCursor(0,0);
+      lcd.print("    Temp: ");
+      printFloatXX_X(getTemp());
+      lcd.print(" F");
         
-        // Print second line of LCD
-        lcd.setCursor(0,1);
-        printFloatXX_X(leftTapSensor.getBeersLeft());
-        lcd.print(" Beers Left ");
-        printFloatXX_X(rightTapSensor.getBeersLeft());
+      // Print second line of LCD
+      lcd.setCursor(0,1);
+      printFloatXX_X(leftTapSensor.getBeersLeft());
+      lcd.print(" Beers Left ");
+      printFloatXX_X(rightTapSensor.getBeersLeft());
         
-        // Print third line of LCD
-        lcd.setCursor(0,2);
-        printFloatXXX(leftTapSensor.getPercentLeft());
-        lcd.print("%  Keg Left  ");
-        printFloatXXX(rightTapSensor.getPercentLeft());
-        lcd.print("%");
+      // Print third line of LCD
+      lcd.setCursor(0,2);
+      printFloatXXX(leftTapSensor.getPercentLeft());
+      lcd.print("%  Keg Left  ");
+      printFloatXXX(rightTapSensor.getPercentLeft());
+      lcd.print("%");
         
-        // Print menu on LCD
-        lcd.setCursor(0,3);
-        lcd.print("Tap 1  Sleep   Tap 2");
+      // Print menu on LCD
+      lcd.setCursor(0,3);
+      lcd.print("Tap 1  Sleep   Tap 2");
         
-        break;
-        
-      default:
-        lcd.setCursor(0,1);
-        lcd.print("Oops, something");
-        lcd.setCursor(0,2);
-        lcd.print("went wrong.");
-    }
+      break;
+       
+    default:
+      lcd.setCursor(0,1);
+      lcd.print("Oops, something");
+      lcd.setCursor(0,2);
+      lcd.print("went wrong.");
   }
 }
 
@@ -625,15 +632,14 @@ void change_LCD() {
 void update_LCD() {
   if (lcdCount++ >= LCD_COUNT_MAX) {
     lcdCount = 0;
-    lcd.clear();
     
     switch (programState) {
       case STATE_LEFT_DETAILS:
-        lcd.setCursor(12,1);
+        lcd.setCursor(13,1);
         printFloatXX_X(leftTapSensor.getBeersPoured());
         lcd.print("/");
-        printFloatXX_X(leftTapSensor.getMaxBeers());
-        lcd.setCursor(14,2);
+        printFloatXX(leftTapSensor.getMaxBeers());
+        lcd.setCursor(15,2);
         printFloatXX_XX(leftTapSensor.getLitersPoured());
         break;
         
@@ -647,11 +653,11 @@ void update_LCD() {
         break;
         
       case STATE_RIGHT_DETAILS:
-        lcd.setCursor(12,1);
+        lcd.setCursor(13,1);
         printFloatXX_X(rightTapSensor.getBeersPoured());
         lcd.print("/");
-        printFloatXX_X(rightTapSensor.getMaxBeers());
-        lcd.setCursor(14,2);
+        printFloatXX(rightTapSensor.getMaxBeers());
+        lcd.setCursor(15,2);
         printFloatXX_XX(rightTapSensor.getLitersPoured());
         break;
         
@@ -675,13 +681,13 @@ void update_LCD() {
         // Update second line of LCD
         lcd.setCursor(0,1);
         printFloatXX_X(leftTapSensor.getBeersLeft());
-        lcd.setCursor(15,1);
+        lcd.setCursor(16,1);
         printFloatXX_X(rightTapSensor.getBeersLeft());
         
         // Update third line of LCD
         lcd.setCursor(0,2);
         printFloatXXX(leftTapSensor.getPercentLeft());
-        lcd.setCursor(15,2);
+        lcd.setCursor(16,2);
         printFloatXXX(rightTapSensor.getPercentLeft());
         break;
         
@@ -751,6 +757,28 @@ void printFloatXXX(float floatNum) {
   if (leftSide < 100) {
     lcd.print(" ");
     if (leftSide < 10) {
+      lcd.print(" ");
+    }
+  }
+  lcd.print(leftSide);
+}
+
+/*
+ * Prints out a float in the format ##
+ */
+void printFloatXX(float floatNum) {
+  // Break up the float value
+  int leftSide = (int) floatNum;
+  
+  // Ensure the number fits in 3 digits
+  while (leftSide >= 100) {
+    leftSide -= 100;
+  }
+  
+  // Determine padding necesary and print the number
+  if (leftSide < 10) {
+    lcd.print(" ");
+    if (leftSide < 1) {
       lcd.print(" ");
     }
   }
