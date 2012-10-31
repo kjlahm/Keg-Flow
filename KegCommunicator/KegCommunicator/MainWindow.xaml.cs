@@ -59,10 +59,10 @@ namespace KegCommunicator {
             try {
                 SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(Baud.Text));
                 if (Convert.ToBoolean(SB_left.IsChecked)) {
-                    SB_feedback.Text = sc.send_command("SB L " + SB_newBeer);
+                    SB_feedback.Text = sc.send_command("SB L " + SB_newBeer.Text);
                 }
                 else {
-                    SB_feedback.Text = sc.send_command("SB R " + SB_newBeer);
+                    SB_feedback.Text = sc.send_command("SB R " + SB_newBeer.Text);
                 }
             }
             catch (Exception ex) {

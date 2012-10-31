@@ -32,7 +32,7 @@ namespace KegCommunicator {
             int bytes = serialPort.BytesToRead;
             string response = "Success";
             if (bytes != 0) {
-                serialPort.ReadLine();
+                response = serialPort.ReadLine();
             }
 
             // Close the serial port
