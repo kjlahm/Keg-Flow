@@ -1,13 +1,13 @@
 ﻿<Window x:Class="KegCommunicator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Keg Flowduino Communicator" Height="350" Width="525">
+        Title="Keg Flowduino Communicator" Height="358" Width="533">
     <Grid>
-        <TabControl HorizontalAlignment="Left" Height="271" Margin="10,39,0,0" VerticalAlignment="Top" Width="497">
-            <TabItem Header="SV">
+        <TabControl HorizontalAlignment="Left" Height="271" Margin="10,39,0,0" VerticalAlignment="Top" Width="497" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem x:Name="SV" Header="SV">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="BC">
+            <TabItem x:Name="BC" Header="BC">
                 <Grid Background="#FFE5E5E5">
                     <Button Name="BC_send" Content="Send" HorizontalAlignment="Left" Margin="402,10,0,0" VerticalAlignment="Top" Width="75" Click="BC_send_Click"/>
                     <Label Content="Red:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
@@ -16,62 +16,63 @@
                     <TextBox x:Name="BC_red" HorizontalAlignment="Left" Height="23" Margin="59,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="BC_green" HorizontalAlignment="Left" Height="23" Margin="59,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="BC_blue" HorizontalAlignment="Left" Height="23" Margin="59,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <TextBlock x:Name="BC_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467" Height="75"/>
+                    <TextBlock x:Name="BC_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467" Height="75" Background="White"/>
                     <Button x:Name="BC_colorPicker"  Content="Color Picker" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Width="75" Click="BC_colorPicker_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="RK">
+            <TabItem x:Name="RK" Header="RK">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="SL">
+            <TabItem x:Name="SL" Header="SL">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="SP">
+            <TabItem x:Name="SP" Header="SP">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="GP">
+            <TabItem x:Name="GP" Header="GP">
                 <Grid Background="#FFE5E5E5">
                     <Button Content="Send" HorizontalAlignment="Left" Margin="402,10,0,0" VerticalAlignment="Top" Width="75" Click="GP_send_Click"/>
                     <RadioButton x:Name="GP_left" Content="Left Tap" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     <RadioButton x:Name="GP_right" Content="Right Tap" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="GP_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="467" Height="75"/>
+                    <TextBlock x:Name="GP_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="467" Height="75" Background="White"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="SB">
+            <TabItem x:Name="SB" Header="SB">
                 <Grid Background="#FFE5E5E5">
                     <Button x:Name="SB_send" Content="Send" HorizontalAlignment="Left" Margin="402,10,0,0" VerticalAlignment="Top" Width="75" Click="SB_send_Click"/>
                     <Label Content="New Beer" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="SB_newBeer" HorizontalAlignment="Left" Height="23" Margin="76,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                     <RadioButton x:Name="SB_left" Content="Left Tap" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     <RadioButton x:Name="SB_right" Content="Right Tap" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="SB_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467" Height="75"/>
+                    <TextBlock x:Name="SB_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467" Height="75" Background="White"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="GB">
+            <TabItem x:Name="GB" Header="GB">
                 <Grid Background="#FFE5E5E5">
-                    <Button Content="Send" HorizontalAlignment="Left" Margin="402,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+                    <Button Content="Send" HorizontalAlignment="Left" Margin="402,10,0,0" VerticalAlignment="Top" Width="75" Click="GB_send_Click"/>
                     <RadioButton x:Name="GB_left" Content="Left Tap" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     <RadioButton x:Name="GB_right" Content="Right Tap" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="GB_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467" Height="75"/>
+                    <TextBlock x:Name="GB_feedback" HorizontalAlignment="Left" Margin="10,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="467" Height="75" Background="White"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label Content="Port Name" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Port" HorizontalAlignment="Left" Height="23" Margin="77,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Baud" HorizontalAlignment="Left" Margin="202,7,0,0" VerticalAlignment="Top"/>
-        <ComboBox Text="Is not open" HorizontalAlignment="Left" Height="23" Margin="244,10,0,286" Width="118">
-            <ComboBoxItem MouseMove="OnHover" Name="cbi1">300</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi2">1200</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi3">2400</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi4">4800</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi5">9600</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi6">14400</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi7">19200</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi8">28800</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi9">38400</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi10">57600</ComboBoxItem>
-            <ComboBoxItem MouseMove="OnHover" Name="cbi11">115200</ComboBoxItem>
+        <Label Content="Port Name" HorizontalAlignment="Left" Margin="133,7,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Port" HorizontalAlignment="Left" Height="23" Margin="202,10,0,287" Width="150" />
+        <Button x:Name="PortRefresh" Content="R" HorizontalAlignment="Left" Margin="355,10,0,0" VerticalAlignment="Top" Width="23" Height="23" Click="PortRefresh_Click"/>
+        <Label Content="Baud" HorizontalAlignment="Left" Margin="386,7,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Baud" HorizontalAlignment="Left" Height="23" Margin="428,10,0,287" Width="79" SelectedIndex="4">
+            <ComboBoxItem Name="cbi1">300</ComboBoxItem>
+            <ComboBoxItem Name="cbi2">1200</ComboBoxItem>
+            <ComboBoxItem Name="cbi3">2400</ComboBoxItem>
+            <ComboBoxItem Name="cbi4">4800</ComboBoxItem>
+            <ComboBoxItem Name="cbi5">9600</ComboBoxItem>
+            <ComboBoxItem Name="cbi6">14400</ComboBoxItem>
+            <ComboBoxItem Name="cbi7">19200</ComboBoxItem>
+            <ComboBoxItem Name="cbi8">28800</ComboBoxItem>
+            <ComboBoxItem Name="cbi9">38400</ComboBoxItem>
+            <ComboBoxItem Name="cbi10">57600</ComboBoxItem>
+            <ComboBoxItem Name="cbi11">115200</ComboBoxItem>
         </ComboBox>
-
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Save State" VerticalAlignment="Top" FontWeight="Bold"/>
     </Grid>
 </Window>
