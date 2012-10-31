@@ -59,7 +59,19 @@
         <Label Content="Port Name" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="Port" HorizontalAlignment="Left" Height="23" Margin="77,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="Baud" HorizontalAlignment="Left" Margin="202,7,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Baud" HorizontalAlignment="Left" Height="23" Margin="244,10,0,0" TextWrapping="Wrap" Text="9600" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Text="Is not open" HorizontalAlignment="Left" Height="23" Margin="244,10,0,286" Width="118">
+            <ComboBoxItem MouseMove="OnHover" Name="cbi1">300</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi2">1200</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi3">2400</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi4">4800</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi5">9600</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi6">14400</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi7">19200</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi8">28800</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi9">38400</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi10">57600</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="cbi11">115200</ComboBoxItem>
+        </ComboBox>
 
     </Grid>
 </Window>
