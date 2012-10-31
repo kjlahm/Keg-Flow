@@ -1,0 +1,46 @@
+body {
+	background-color: #999999;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+
+#page {
+	width: 650px;
+	margin: 0px auto;
+	background-color: #EEEEEE;
+}
+
+#command-list ul {
+	list-style-type: none;
+	padding: 5px;
+}
+
+.heading {
+	padding: 5px 10px;
+}
+
+.command-list-item {
+	border: 2px solid black;
+	margin-top: -2px;
+	padding: 5px;
+}
+
+.command-list-item-top {
+	margin-top: 0px;
+}
+
+.command-list-item-title {
+	float: left;
+	font-weight: bold;
+}
+
+.command-list-item-format {
+	float: right;
+	font-weight: bold;
+}
+
+.command-list-item-description {
+	clear: both;
+	padding-top: 5px;
+}
