@@ -119,6 +119,12 @@ struct config_t {
   uint16_t rightPulses;
 } config;
 
+// Declare variables for serial communication
+uint8_t serialIndex = 0;
+#define COMMAND_BUFFER_SIZE 25
+char commandBuffer[COMMAND_BUFFER_SIZE];
+
+
 /*
  * Interrupt is called once a millisecond, looks for any pulses from the sensor!
  */
@@ -193,6 +199,9 @@ void loop() {
   
   // Update the LCD
   update_LCD();
+  
+  // Check for serial input
+  check_commands();
 }
 
 
@@ -812,7 +821,156 @@ void setBacklight(uint8_t r, uint8_t g, uint8_t b) {
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Functions for controlling LCD.
+// Functions getting commands via serial.
+//
+/////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Check the serial input line for new commands.
+ */
+void check_commands() {
+  if (Serial.available()) {
+    delay(50);
+    while (Serial.available() && serialIndex < COMMAND_BUFFER_SIZE -1) {
+      commandBuffer[serialIndex++] = Serial.read();
+    }
+    commandBuffer[serialIndex++] = '\0';
+    
+    if (serialIndex > 0) {
+      parse_command();
+      serialIndex = 0;
+    }
+  }
+}
+
+/*
+ *
+ */
+void parse_command() {
+  // Copy command into seperate buffer
+  char command[2];
+  command[0] = commandBuffer[0];
+  command[1] = commandBuffer[1];
+  
+  // Handle save to nonvol
+  if (command[0] == 'S' && command[1] == 'V') {
+    saveStateInformation();
+    
+  // Handle set backlight command
+  } else if (command[0] == 'B' && command[1] == 'C') {
+    char color[3];
+    color[0] = commandBuffer[3];
+    color[1] = commandBuffer[4];
+    color[2] = commandBuffer[5];
+    uint8_t red = atoi(color);
+    
+    color[0] = commandBuffer[7];
+    color[1] = commandBuffer[8];
+    color[2] = commandBuffer[9];
+    uint8_t green = atoi(color);
+    
+    color[0] = commandBuffer[11];
+    color[1] = commandBuffer[12];
+    color[2] = commandBuffer[13];
+    uint8_t blue = atoi(color);
+    
+    setBacklight(red, green, blue);
+    
+  // Handle reset keg command
+  } else if (command[0] == 'R' && command[1] == 'K') {
+    if (commandBuffer[3] == 'L') {
+      leftTapSensor.setPulses(0);
+    } else {
+      rightTapSensor.setPulses(0);
+    }
+    
+  // Handle set keg level (beers)
+  } else if (command[0] == 'S' && command[1] == 'L') {
+    int a = (int) commandBuffer[5];
+    int b = (int) commandBuffer[6];
+    int c = (int) commandBuffer[8];
+    
+    float beers = (a * 10.0) + (b * 1.0) + (float)(c / 10.0);
+    
+    if (commandBuffer[3] == 'L') {
+      leftTapSensor.setBeersLeft(beers);
+    } else {
+      rightTapSensor.setBeersLeft(beers);
+    }
+    
+  // Handle set keg level (pulses)
+  } else if (command[0] == 'S' && command[1] == 'P') {
+    int a = (int) commandBuffer[5];
+    int b = (int) commandBuffer[6];
+    int c = (int) commandBuffer[7];
+    int d = (int) commandBuffer[8];
+    
+    uint16_t pulses = (a * 1000) + (b * 100) + (c * 10) + (d * 1);
+    
+    if (commandBuffer[3] == 'L') {
+      leftTapSensor.setPulses(pulses);
+    } else {
+      rightTapSensor.setPulses(pulses);
+    }
+    
+  // Handle set beer name
+  } else if (command[0] == 'S' && command[1] == 'B') {
+    uint8_t i;
+    if (commandBuffer[3] == 'L') {
+      LEFT_beerCurrentIndex = BEER_LIST_LENGTH -2;
+      i = BEER_LIST_LENGTH -2;
+    } else {
+      RIGHT_beerCurrentIndex = BEER_LIST_LENGTH -1;
+      i = BEER_LIST_LENGTH -1;
+    }
+    
+    BEER_LIST[i][0] = commandBuffer[5];
+    BEER_LIST[i][1] = commandBuffer[6];
+    BEER_LIST[i][2] = commandBuffer[7];
+    BEER_LIST[i][3] = commandBuffer[8];
+    BEER_LIST[i][4] = commandBuffer[9];
+    BEER_LIST[i][5] = commandBuffer[10];
+    BEER_LIST[i][6] = commandBuffer[11];
+    BEER_LIST[i][7] = commandBuffer[12];
+    BEER_LIST[i][8] = commandBuffer[13];
+    BEER_LIST[i][9] = commandBuffer[14];
+    BEER_LIST[i][10] = commandBuffer[15];
+    BEER_LIST[i][11] = commandBuffer[16];
+    BEER_LIST[i][12] = commandBuffer[17];
+    BEER_LIST[i][13] = commandBuffer[18];
+    BEER_LIST[i][14] = commandBuffer[19];
+    BEER_LIST[i][15] = commandBuffer[20];
+    BEER_LIST[i][16] = commandBuffer[21];
+    BEER_LIST[i][17] = commandBuffer[22];
+    BEER_LIST[i][18] = commandBuffer[23];
+  
+  // Handle get keg level (pulses)
+  } else if (command[0] == 'G' && command[1] == 'P') {
+    if (commandBuffer[3] == 'L') {
+      Serial.println(leftTapSensor.getPulses());
+    } else {
+      Serial.println(rightTapSensor.getPulses());
+    }
+    
+  // Handle get beer name
+  } else if (command[0] == 'G' && command[1] == 'B') {
+    if (commandBuffer[3] == 'L') {
+      Serial.println(BEER_LIST[LEFT_beerCurrentIndex]);
+    } else {
+      Serial.println(BEER_LIST[RIGHT_beerCurrentIndex]);
+    }
+    
+  // Handle command not recognized
+  } else {
+    Serial.print("Command not recognized: ");
+    Serial.println(command);
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Functions for interacting with the temp sensor.
 //
 /////////////////////////////////////////////////////////////////////////////
 

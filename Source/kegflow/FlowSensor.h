@@ -24,6 +24,7 @@ class FlowSensor {
     void      setPulses(uint16_t newPulses);
     float     getLiters();
     void      checkSensor();
+    void      setBeersLeft(float beers);
     float     getBeersLeft();
     float     getPercentLeft();
     float     getBeersPoured();
