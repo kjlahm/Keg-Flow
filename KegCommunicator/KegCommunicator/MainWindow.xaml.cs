@@ -135,16 +135,30 @@ namespace KegCommunicator {
         private void SB_send_Click(object sender, RoutedEventArgs e) {
             try {
                 SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(((ComboBoxItem)Baud.SelectedItem).Content.ToString()));
-                string response;
+                string command = "SB ";
                 if (Convert.ToBoolean(SB_left.IsChecked)) {
-                    response = sc.send_command("SB L " + SB_newBeer.Text);
-                    LEFT_beerName = response;
+                    command += "L ";
+                    if (Convert.ToBoolean(SB_useSaved.IsChecked))
+                    {
+                        command += LEFT_beerName;
+                    }
+                    else
+                    {
+                        command += SB_newBeer.Text;
+                    }
                 }
                 else {
-                    response = sc.send_command("SB R " + SB_newBeer.Text);
-                    RIGHT_beerName = response;
+                    command += "R ";
+                    if (Convert.ToBoolean(SB_useSaved.IsChecked))
+                    {
+                        command += RIGHT_beerName;
+                    }
+                    else
+                    {
+                        command += SB_newBeer.Text;
+                    }
                 }
-                SB_feedback.Text = response;
+                SB_feedback.Text = sc.send_command(command);
             }
             catch (Exception ex) {
                 SB_feedback.Text = ex.Message;
@@ -154,12 +168,16 @@ namespace KegCommunicator {
         private void GB_send_Click(object sender, RoutedEventArgs e) {
             try {
                 SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(((ComboBoxItem)Baud.SelectedItem).Content.ToString()));
+                string response;
                 if (Convert.ToBoolean(GB_left.IsChecked)) {
-                    GB_feedback.Text = sc.send_command("GB L");
+                    response = sc.send_command("GB L");
+                    LEFT_beerName = response;
                 }
                 else {
-                    GB_feedback.Text = sc.send_command("GB R");
+                    response = sc.send_command("GB R");
+                    RIGHT_beerName = response;
                 }
+                GB_feedback.Text = response;
             }
             catch (Exception ex) {
                 GB_feedback.Text = ex.Message;
@@ -178,16 +196,8 @@ namespace KegCommunicator {
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (SV.IsSelected) {
-                Title.Text = "Save State";
-                e.Handled = true;
-            }
-            else if (BC.IsSelected) {
+            if (BC.IsSelected) {
                 Title.Text = "Set Backlight Color";
-                e.Handled = true;
-            }
-            else if (RK.IsSelected) {
-                Title.Text = "Reset Keg";
                 e.Handled = true;
             }
             else if (SL.IsSelected) {
@@ -220,6 +230,88 @@ namespace KegCommunicator {
                 Port.SelectedIndex = 0;
             }
             catch (Exception ex) { }
+        }
+
+        private void BTN_saveState_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(((ComboBoxItem)Baud.SelectedItem).Content.ToString()));
+                sc.send_command("SV");
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void BTN_resetKegLeft_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(((ComboBoxItem)Baud.SelectedItem).Content.ToString()));
+                sc.send_command("RK L");
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void BTN_resetKegRight_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(((ComboBoxItem)Baud.SelectedItem).Content.ToString()));
+                sc.send_command("RK R");
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void BTN_pullState_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(((ComboBoxItem)Baud.SelectedItem).Content.ToString()));
+                
+                // Get left pulses
+                LEFT_sensorPulses = Convert.ToInt32(sc.send_command("GP L"));
+
+                // Get right pulses
+                RIGHT_sensorPulses = Convert.ToInt32(sc.send_command("GP R"));
+                
+                // Get left beer name
+                LEFT_beerName = sc.send_command("GB L");
+
+                // Get right beer name
+                LEFT_beerName = sc.send_command("GB R");
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void BTN_pushState_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SerialCommunicator sc = new SerialCommunicator(Port.Text, Convert.ToInt32(((ComboBoxItem)Baud.SelectedItem).Content.ToString()));
+
+                // Get left pulses
+                sc.send_command("SP L " + format_pulse(LEFT_sensorPulses));
+
+                // Get right pulses
+                sc.send_command("SP R " + format_pulse(RIGHT_sensorPulses));
+
+                // Get left beer name
+                sc.send_command("SB L " + LEFT_beerName);
+
+                // Get right beer name
+                sc.send_command("SB R " + RIGHT_beerName);
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }
