@@ -92,7 +92,7 @@ char BEER_LIST[BEER_LIST_LENGTH][BEER_NAME_LENGTH] = {
 { "Homebrew" },
 { "Irish Pale Ale" },
 { "Irish Red Ale" },
-{ "Budweiser" },
+{ "Domestic Swill" },
 { "Horse Piss" }
 };
 
@@ -341,6 +341,7 @@ void updateState(int button) {
         LEFT_beerCurrentIndex = beerSelectIndex;
         programState = STATE_LEFT_DETAILS;
       } else if (button == MIDDLE_BUTTON) {
+        programState = STATE_LEFT_DETAILS;
       } else if (button == RIGHT_BUTTON) {
         programState = STATE_LEFT_SELECT;
       }
@@ -386,6 +387,7 @@ void updateState(int button) {
         RIGHT_beerCurrentIndex = beerSelectIndex;
         programState = STATE_RIGHT_DETAILS;
       } else if (button == MIDDLE_BUTTON) {
+        programState = STATE_RIGHT_DETAILS;
       } else if (button == RIGHT_BUTTON) {
         programState = STATE_RIGHT_SELECT;
       }
@@ -529,7 +531,7 @@ void change_LCD() {
       lcd.setCursor(0,2);
       lcd.print(BEER_LIST[beerSelectIndex]);
       lcd.setCursor(0,3);
-      lcd.print(" Yes             No ");
+      lcd.print(" Yes   Cancel    No ");
       break;
         
     case STATE_LEFT_RESET_CONFIRM:
@@ -584,7 +586,7 @@ void change_LCD() {
       lcd.setCursor(0,2);
       lcd.print(BEER_LIST[beerSelectIndex]);
       lcd.setCursor(0,3);
-      lcd.print(" Yes             No ");
+      lcd.print(" Yes   Cancel    No ");
       break;
         
     case STATE_RIGHT_RESET_CONFIRM:
