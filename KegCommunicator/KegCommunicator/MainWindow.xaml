@@ -1,7 +1,7 @@
 ﻿<Window x:Class="KegCommunicator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Keg Flowduino Communicator" Height="358" Width="533">
+        Title="Keg Flowduino Communicator" Height="358" Width="533" Icon="favicon.ico">
     <Grid>
         <TabControl HorizontalAlignment="Left" Height="271" Margin="10,39,0,0" VerticalAlignment="Top" Width="497" SelectionChanged="TabControl_SelectionChanged">
             <TabItem x:Name="SV" Header="SV">
