@@ -17,3 +17,18 @@ obj
 
 # mstest test results
 TestResults
+
+# xcode noise
+build/*
+*.perspective
+*.perspectivev3
+*.pbxuser
+*.xcworkspace
+*.model1
+*.model2v3
+*.model1v3
+xcuserdata
+Snapshots
+
+# osx noise
+*.DS_Store
