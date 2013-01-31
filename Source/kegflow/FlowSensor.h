@@ -3,8 +3,8 @@
 
 #include "Arduino.h"
 
-#define MAX_PULSES 7627.782606
-#define PULSES_PER_BEER 127.1297101
+#define MAX_PULSES 7350.408695
+#define PULSES_PER_BEER 138.6869565
 
 class FlowSensor {
   private:
