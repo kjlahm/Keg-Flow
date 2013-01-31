@@ -1,0 +1,320 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		363E1F4E1694C4380039A991 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363E1F4D1694C4380039A991 /* UIKit.framework */; };
+		363E1F501694C4380039A991 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363E1F4F1694C4380039A991 /* Foundation.framework */; };
+		363E1F521694C4380039A991 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363E1F511694C4380039A991 /* CoreGraphics.framework */; };
+		363E1F581694C4380039A991 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 363E1F561694C4380039A991 /* InfoPlist.strings */; };
+		363E1F5A1694C4380039A991 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E1F591694C4380039A991 /* main.m */; };
+		363E1F5E1694C4380039A991 /* KegCommunicatorAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E1F5D1694C4380039A991 /* KegCommunicatorAppDelegate.m */; };
+		363E1F601694C4380039A991 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 363E1F5F1694C4380039A991 /* Default.png */; };
+		363E1F621694C4380039A991 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 363E1F611694C4380039A991 /* Default@2x.png */; };
+		363E1F641694C4380039A991 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 363E1F631694C4380039A991 /* Default-568h@2x.png */; };
+		363E1F671694C4380039A991 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 363E1F651694C4380039A991 /* MainStoryboard_iPhone.storyboard */; };
+		363E1F6A1694C4380039A991 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 363E1F681694C4380039A991 /* MainStoryboard_iPad.storyboard */; };
+		363E1F6D1694C4380039A991 /* KegCommunicatorMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E1F6C1694C4380039A991 /* KegCommunicatorMasterViewController.m */; };
+		363E1F701694C4380039A991 /* KegCommunicatorDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E1F6F1694C4380039A991 /* KegCommunicatorDetailViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		363E1F491694C4380039A991 /* KegCommunicator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KegCommunicator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		363E1F4D1694C4380039A991 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		363E1F4F1694C4380039A991 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		363E1F511694C4380039A991 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		363E1F551694C4380039A991 /* KegCommunicator-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KegCommunicator-Info.plist"; sourceTree = "<group>"; };
+		363E1F571694C4380039A991 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		363E1F591694C4380039A991 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		363E1F5B1694C4380039A991 /* KegCommunicator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KegCommunicator-Prefix.pch"; sourceTree = "<group>"; };
+		363E1F5C1694C4380039A991 /* KegCommunicatorAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KegCommunicatorAppDelegate.h; sourceTree = "<group>"; };
+		363E1F5D1694C4380039A991 /* KegCommunicatorAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KegCommunicatorAppDelegate.m; sourceTree = "<group>"; };
+		363E1F5F1694C4380039A991 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		363E1F611694C4380039A991 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		363E1F631694C4380039A991 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		363E1F661694C4380039A991 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		363E1F691694C4380039A991 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		363E1F6B1694C4380039A991 /* KegCommunicatorMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KegCommunicatorMasterViewController.h; sourceTree = "<group>"; };
+		363E1F6C1694C4380039A991 /* KegCommunicatorMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KegCommunicatorMasterViewController.m; sourceTree = "<group>"; };
+		363E1F6E1694C4380039A991 /* KegCommunicatorDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KegCommunicatorDetailViewController.h; sourceTree = "<group>"; };
+		363E1F6F1694C4380039A991 /* KegCommunicatorDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KegCommunicatorDetailViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		363E1F461694C4380039A991 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				363E1F4E1694C4380039A991 /* UIKit.framework in Frameworks */,
+				363E1F501694C4380039A991 /* Foundation.framework in Frameworks */,
+				363E1F521694C4380039A991 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		363E1F3E1694C4380039A991 = {
+			isa = PBXGroup;
+			children = (
+				363E1F531694C4380039A991 /* KegCommunicator */,
+				363E1F4C1694C4380039A991 /* Frameworks */,
+				363E1F4A1694C4380039A991 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		363E1F4A1694C4380039A991 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				363E1F491694C4380039A991 /* KegCommunicator.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		363E1F4C1694C4380039A991 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				363E1F4D1694C4380039A991 /* UIKit.framework */,
+				363E1F4F1694C4380039A991 /* Foundation.framework */,
+				363E1F511694C4380039A991 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		363E1F531694C4380039A991 /* KegCommunicator */ = {
+			isa = PBXGroup;
+			children = (
+				363E1F5C1694C4380039A991 /* KegCommunicatorAppDelegate.h */,
+				363E1F5D1694C4380039A991 /* KegCommunicatorAppDelegate.m */,
+				363E1F651694C4380039A991 /* MainStoryboard_iPhone.storyboard */,
+				363E1F681694C4380039A991 /* MainStoryboard_iPad.storyboard */,
+				363E1F6B1694C4380039A991 /* KegCommunicatorMasterViewController.h */,
+				363E1F6C1694C4380039A991 /* KegCommunicatorMasterViewController.m */,
+				363E1F6E1694C4380039A991 /* KegCommunicatorDetailViewController.h */,
+				363E1F6F1694C4380039A991 /* KegCommunicatorDetailViewController.m */,
+				363E1F541694C4380039A991 /* Supporting Files */,
+			);
+			path = KegCommunicator;
+			sourceTree = "<group>";
+		};
+		363E1F541694C4380039A991 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				363E1F551694C4380039A991 /* KegCommunicator-Info.plist */,
+				363E1F561694C4380039A991 /* InfoPlist.strings */,
+				363E1F591694C4380039A991 /* main.m */,
+				363E1F5B1694C4380039A991 /* KegCommunicator-Prefix.pch */,
+				363E1F5F1694C4380039A991 /* Default.png */,
+				363E1F611694C4380039A991 /* Default@2x.png */,
+				363E1F631694C4380039A991 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		363E1F481694C4380039A991 /* KegCommunicator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 363E1F731694C4380039A991 /* Build configuration list for PBXNativeTarget "KegCommunicator" */;
+			buildPhases = (
+				363E1F451694C4380039A991 /* Sources */,
+				363E1F461694C4380039A991 /* Frameworks */,
+				363E1F471694C4380039A991 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KegCommunicator;
+			productName = KegCommunicator;
+			productReference = 363E1F491694C4380039A991 /* KegCommunicator.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		363E1F401694C4380039A991 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = KegCommunicator;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Ken Lahm";
+			};
+			buildConfigurationList = 363E1F431694C4380039A991 /* Build configuration list for PBXProject "KegCommunicator" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 363E1F3E1694C4380039A991;
+			productRefGroup = 363E1F4A1694C4380039A991 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				363E1F481694C4380039A991 /* KegCommunicator */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		363E1F471694C4380039A991 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				363E1F581694C4380039A991 /* InfoPlist.strings in Resources */,
+				363E1F601694C4380039A991 /* Default.png in Resources */,
+				363E1F621694C4380039A991 /* Default@2x.png in Resources */,
+				363E1F641694C4380039A991 /* Default-568h@2x.png in Resources */,
+				363E1F671694C4380039A991 /* MainStoryboard_iPhone.storyboard in Resources */,
+				363E1F6A1694C4380039A991 /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		363E1F451694C4380039A991 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				363E1F5A1694C4380039A991 /* main.m in Sources */,
+				363E1F5E1694C4380039A991 /* KegCommunicatorAppDelegate.m in Sources */,
+				363E1F6D1694C4380039A991 /* KegCommunicatorMasterViewController.m in Sources */,
+				363E1F701694C4380039A991 /* KegCommunicatorDetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		363E1F561694C4380039A991 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				363E1F571694C4380039A991 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		363E1F651694C4380039A991 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				363E1F661694C4380039A991 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		363E1F681694C4380039A991 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				363E1F691694C4380039A991 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		363E1F711694C4380039A991 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		363E1F721694C4380039A991 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		363E1F741694C4380039A991 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KegCommunicator/KegCommunicator-Prefix.pch";
+				INFOPLIST_FILE = "KegCommunicator/KegCommunicator-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		363E1F751694C4380039A991 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KegCommunicator/KegCommunicator-Prefix.pch";
+				INFOPLIST_FILE = "KegCommunicator/KegCommunicator-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		363E1F431694C4380039A991 /* Build configuration list for PBXProject "KegCommunicator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				363E1F711694C4380039A991 /* Debug */,
+				363E1F721694C4380039A991 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		363E1F731694C4380039A991 /* Build configuration list for PBXNativeTarget "KegCommunicator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				363E1F741694C4380039A991 /* Debug */,
+				363E1F751694C4380039A991 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 363E1F401694C4380039A991 /* Project object */;
+}

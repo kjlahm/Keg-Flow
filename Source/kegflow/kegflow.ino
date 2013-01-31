@@ -92,7 +92,7 @@ char BEER_LIST[BEER_LIST_LENGTH][BEER_NAME_LENGTH] = {
 { "Homebrew" },
 { "Irish Pale Ale" },
 { "Irish Red Ale" },
-{ "Budweiser" },
+{ "Domestic Swill" },
 { "Horse Piss" }
 };
 
@@ -586,7 +586,7 @@ void change_LCD() {
       lcd.setCursor(0,2);
       lcd.print(BEER_LIST[beerSelectIndex]);
       lcd.setCursor(0,3);
-      lcd.print(" Yes             No ");
+      lcd.print(" Yes   Cancel    No ");
       break;
         
     case STATE_RIGHT_RESET_CONFIRM:
