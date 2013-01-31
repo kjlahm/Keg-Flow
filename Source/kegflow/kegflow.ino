@@ -88,11 +88,11 @@ int RIGHT_beerCurrentIndex = 0;
 #define BEER_NAME_LENGTH 19
 char BEER_LIST[BEER_LIST_LENGTH][BEER_NAME_LENGTH] = {
 { "Boulevard Wheat" },
-{ "Guinness Stout" },
+{ "Brown Ale" },
+{ "Empyrean" },
 { "Homebrew" },
-{ "Irish Pale Ale" },
-{ "Irish Red Ale" },
-{ "Domestic Swill" },
+{ "Scottish Ale" },
+{ "Budweiser" },
 { "Horse Piss" }
 };
 
