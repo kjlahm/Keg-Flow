@@ -88,11 +88,11 @@ int RIGHT_beerCurrentIndex = 0;
 #define BEER_NAME_LENGTH 19
 char BEER_LIST[BEER_LIST_LENGTH][BEER_NAME_LENGTH] = {
 { "Boulevard Wheat" },
-{ "Guinness Stout" },
+{ "Brown Ale" },
+{ "Empyrean" },
 { "Homebrew" },
-{ "Irish Pale Ale" },
-{ "Irish Red Ale" },
-{ "Domestic Swill" },
+{ "Scottish Ale" },
+{ "Budweiser" },
 { "Horse Piss" }
 };
 
@@ -415,6 +415,10 @@ void updateState(int button) {
 void saveStateInformation() {
   // Show a message that the state is being saved
   lcd.clear();
+  
+  // delay to prevent the clear function from causing problems
+  delay(100);
+  
   lcd.setCursor(3,1);
   lcd.print("Saving sensor");
   lcd.setCursor(3,2);
@@ -434,11 +438,11 @@ void saveStateInformation() {
   }
   
   // Perform the saving of the information
-  /*config.leftIndex = LEFT_beerCurrentIndex;
+  config.leftIndex = LEFT_beerCurrentIndex;
   config.rightIndex = RIGHT_beerCurrentIndex;
   config.leftPulses = leftTapSensor.getPulses();
   config.rightPulses = rightTapSensor.getPulses();
-  EEPROM_writeAnything(EE_ADDR_CONFIG, config);*/
+  EEPROM_writeAnything(EE_ADDR_CONFIG, config);
   
   // Change the LCD back
   change_LCD();
@@ -450,6 +454,10 @@ void saveStateInformation() {
 void readStateInformation() {
   // Show a message that the state is being read
   lcd.clear();
+  
+  // delay to prevent the clear function from causing problems
+  delay(100);
+  
   lcd.setCursor(0,0);
   lcd.print("Welcome to");
   lcd.setCursor(6,1);
@@ -458,7 +466,7 @@ void readStateInformation() {
   lcd.print("Reading Sensor State");
   
   // Perform the reading of the information
-  EEPROM_writeAnything(EE_ADDR_CONFIG, config);
+  EEPROM_readAnything(EE_ADDR_CONFIG, config);
   LEFT_beerCurrentIndex = config.leftIndex;
   RIGHT_beerCurrentIndex = config.rightIndex;
   leftTapSensor.setPulses(config.leftPulses);
@@ -488,6 +496,9 @@ void change_LCD() {
   
   lcdCount = 0;
   lcd.clear();
+  
+  // delay to prevent the clear function from causing problems
+  delay(100);
     
   switch (programState) {
     case STATE_LEFT_DETAILS:
