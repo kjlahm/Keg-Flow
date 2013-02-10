@@ -101,11 +101,11 @@ char BEER_LIST[BEER_LIST_LENGTH][BEER_NAME_LENGTH] = {
 OneWire ds(PIN_TEMP_SENSOR);
 
 // Define the left tap flow meter
-#define PIN_LEFT_TAP_FLOW_METER 2
+#define PIN_LEFT_TAP_FLOW_METER 4
 FlowSensor leftTapSensor;
 
 // Define the right tap flow meter
-#define PIN_RIGHT_TAP_FLOW_METER 4
+#define PIN_RIGHT_TAP_FLOW_METER 2
 FlowSensor rightTapSensor;
 
 // Define address constants
@@ -899,9 +899,9 @@ void parse_command() {
     
   // Handle set keg level (beers)
   } else if (command[0] == 'S' && command[1] == 'L') {
-    int a = (int) commandBuffer[5];
-    int b = (int) commandBuffer[6];
-    int c = (int) commandBuffer[8];
+    int a = ((int) commandBuffer[5]) -48;
+    int b = ((int) commandBuffer[6]) -48;
+    int c = ((int) commandBuffer[8]) -48;
     
     float beers = (a * 10.0) + (b * 1.0) + (float)(c / 10.0);
     
@@ -913,10 +913,10 @@ void parse_command() {
     
   // Handle set keg level (pulses)
   } else if (command[0] == 'S' && command[1] == 'P') {
-    int a = (int) commandBuffer[5];
-    int b = (int) commandBuffer[6];
-    int c = (int) commandBuffer[7];
-    int d = (int) commandBuffer[8];
+    int a = ((int) commandBuffer[5]) -48;
+    int b = ((int) commandBuffer[6]) -48;
+    int c = ((int) commandBuffer[7]) -48;
+    int d = ((int) commandBuffer[8]) -48;
     
     uint16_t pulses = (a * 1000) + (b * 100) + (c * 10) + (d * 1);
     

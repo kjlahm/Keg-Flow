@@ -60,7 +60,7 @@ void FlowSensor::checkSensor() {
 }
 
 void FlowSensor::setBeersLeft(float beers) {
-  pulses = beers * PULSES_PER_BEER;
+  pulses = MAX_PULSES - (beers * PULSES_PER_BEER);
 }
 
 float FlowSensor::getBeersLeft() {
