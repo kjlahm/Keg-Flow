@@ -956,6 +956,14 @@ void parse_command() {
     BEER_LIST[i][16] = commandBuffer[21];
     BEER_LIST[i][17] = commandBuffer[22];
     BEER_LIST[i][18] = commandBuffer[23];
+    
+  // Handle get keg level (beers)
+  } else if (command[0] == 'G' && command[1] == 'L') {
+    if (commandBuffer[3] == 'L') {
+      Serial.println(leftTapSensor.getBeersLeft());
+    } else {
+      Serial.println(rightTapSensor.getBeersLeft());
+    }
   
   // Handle get keg level (pulses)
   } else if (command[0] == 'G' && command[1] == 'P') {
